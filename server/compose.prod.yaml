@@ -54,7 +54,7 @@ services:
       GOTRUE_DB_DRIVER: postgres
       GOTRUE_DB_DATABASE_URL: postgres://supabase_auth_admin:${POSTGRES_PASSWORD:?run make setup first}@db:5432/postgres
       GOTRUE_SITE_URL: ${SITE_URL:?SITE_URL is required}
-      GOTRUE_URI_ALLOW_LIST: https://dealenx-pomodoist-fbi0kc-23d70c-45-147-176-39.sslip.io/login-callback,https://dealenx-pomodoist-fbi0kc-23d70c-45-147-176-39.sslip.io/auth/challenge,pomodoist-dev://login-callback,pomodoist-dev://captcha-callback,pomodoist-stg://login-callback,pomodoist-stg://captcha-callback,pomodoist://login-callback,pomodoist://captcha-callback
+      GOTRUE_URI_ALLOW_LIST: ${ADDITIONAL_REDIRECT_URLS:?ADDITIONAL_REDIRECT_URLS is required}
       GOTRUE_DISABLE_SIGNUP: ${DISABLE_SIGNUP:-false}
       GOTRUE_JWT_ADMIN_ROLES: service_role
       GOTRUE_JWT_AUD: authenticated
