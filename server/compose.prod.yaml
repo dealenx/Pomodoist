@@ -14,7 +14,6 @@ name: pomodoist-selfhost
 
 services:
   db:
-    container_name: pomodoist-selfhost-db
     image: ghcr.io/dealenx/pomodoist-db:${POMODOIST_IMAGE_TAG:-mod}
     restart: unless-stopped
     volumes:
@@ -38,7 +37,6 @@ services:
     command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf", "-c", "log_min_messages=warning"]
 
   auth:
-    container_name: pomodoist-selfhost-auth
     image: docker.io/supabase/gotrue:v2.195.0@sha256:362659ca70eaa75ba05bbaf963caa84c1c5afe5e8fbf0777e17b830dd5f0f60a
     restart: unless-stopped
     depends_on:
@@ -89,7 +87,6 @@ services:
       GOTRUE_SMS_AUTOCONFIRM: "false"
 
   rest:
-    container_name: pomodoist-selfhost-rest
     image: docker.io/postgrest/postgrest:v14.12@sha256:54000f24847d01a2c2302e0041cf0618b875c57fb48507d743cfa9aaa50bf43c
     restart: unless-stopped
     depends_on:
@@ -114,7 +111,6 @@ services:
       PGRST_DB_USE_LEGACY_GUCS: "false"
 
   realtime:
-    container_name: pomodoist-selfhost-realtime
     image: docker.io/supabase/realtime:v2.112.6@sha256:7b56da34216fd568042be043900d15cdd33c2c48c2116c9a333f9465255da80d
     restart: unless-stopped
     depends_on:
@@ -148,7 +144,6 @@ services:
       DISABLE_HEALTHCHECK_LOGGING: "true"
 
   migrate:
-    container_name: pomodoist-selfhost-migrate
     image: docker.io/supabase/postgres:17.6.1.127@sha256:be60aee15997daca475b710b734bc6bfe52cd544dcd7e9fd2ff58210b6747d83
     restart: "no"
     depends_on:
@@ -167,7 +162,6 @@ services:
     entrypoint: ["/bin/sh", "/opt/pomodoist/migrate.sh"]
 
   gateway:
-    container_name: pomodoist-selfhost-gateway
     image: ghcr.io/dealenx/pomodoist-gateway:${POMODOIST_IMAGE_TAG:-mod}
     restart: unless-stopped
     depends_on:
@@ -195,7 +189,6 @@ services:
       SUPABASE_SERVICE_KEY: ${SERVICE_ROLE_KEY:?run make setup first}
 
   functions:
-    container_name: pomodoist-selfhost-functions
     image: ghcr.io/dealenx/pomodoist-functions:${POMODOIST_IMAGE_TAG:-mod}
     restart: unless-stopped
     depends_on:
@@ -270,7 +263,6 @@ services:
     command: ["start", "--main-service", "/home/deno/functions/main"]
 
   web:
-    container_name: pomodoist-selfhost-web
     image: ghcr.io/dealenx/pomodoist-web:${POMODOIST_IMAGE_TAG:-mod}
     restart: unless-stopped
     depends_on:
