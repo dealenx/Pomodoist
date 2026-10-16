@@ -54,14 +54,14 @@ services:
       GOTRUE_DB_DRIVER: postgres
       GOTRUE_DB_DATABASE_URL: postgres://supabase_auth_admin:${POSTGRES_PASSWORD:?run make setup first}@db:5432/postgres
       GOTRUE_SITE_URL: ${SITE_URL:?SITE_URL is required}
-      GOTRUE_URI_ALLOW_LIST: ${ADDITIONAL_REDIRECT_URLS:?ADDITIONAL_REDIRECT_URLS is required}
+      GOTRUE_URI_ALLOW_LIST: https://dealenx-pomodoist-fbi0kc-23d70c-45-147-176-39.sslip.io/login-callback,https://dealenx-pomodoist-fbi0kc-23d70c-45-147-176-39.sslip.io/auth/challenge,pomodoist-dev://login-callback,pomodoist-dev://captcha-callback,pomodoist-stg://login-callback,pomodoist-stg://captcha-callback,pomodoist://login-callback,pomodoist://captcha-callback
       GOTRUE_DISABLE_SIGNUP: ${DISABLE_SIGNUP:-false}
       GOTRUE_JWT_ADMIN_ROLES: service_role
       GOTRUE_JWT_AUD: authenticated
       GOTRUE_JWT_DEFAULT_GROUP_NAME: authenticated
       GOTRUE_JWT_EXP: ${JWT_EXPIRY:-3600}
       GOTRUE_JWT_SECRET: ${JWT_SECRET:?run make setup first}
-      GOTRUE_JWT_KEYS: '[{"kty":"EC","crv":"P-256","alg":"ES256","kid":"p1","x":"u0PW0H4_FjavdteDUMIjg2_O5LOA5c7RTThiNylVouA","y":"IWl82tvDKGG2tJPwZcVFnh7bEHSxQubY_eXC-9L4vvw","d":"wHpi54hFUGEjuI8Dz9-L1biSM-_RXjgIs0dYfxCgh2o"},{"kty":"oct","k":"NTM4OTg4NmQ3YTBlNGU2ZGE3YWE5YTc5MTVmOTYzMmVjMjM4ZDY2YjJkZjRlYmI1M2Q1MDI4ZTkzZGZiYzFkZg","alg":"HS256"}]'
+      GOTRUE_JWT_KEYS: ${JWT_KEYS:?run make setup first}
       GOTRUE_JWT_ISSUER: ${API_EXTERNAL_URL:?API_EXTERNAL_URL is required}
       GOTRUE_HOOK_CUSTOM_ACCESS_TOKEN_ENABLED: "true"
       GOTRUE_HOOK_CUSTOM_ACCESS_TOKEN_URI: pg-functions://postgres/private/pomodoist_mcp_access_token_hook
@@ -105,7 +105,7 @@ services:
       PGRST_DB_MAX_ROWS: 1000
       PGRST_ADMIN_SERVER_PORT: 3001
       PGRST_ADMIN_SERVER_HOST: localhost
-      PGRST_JWT_SECRET: '{"keys":[{"kty":"EC","crv":"P-256","alg":"ES256","kid":"p1","x":"u0PW0H4_FjavdteDUMIjg2_O5LOA5c7RTThiNylVouA","y":"IWl82tvDKGG2tJPwZcVFnh7bEHSxQubY_eXC-9L4vvw"},{"kty":"oct","k":"NTM4OTg4NmQ3YTBlNGU2ZGE3YWE5YTc5MTVmOTYzMmVjMjM4ZDY2YjJkZjRlYmI1M2Q1MDI4ZTkzZGZiYzFkZg","alg":"HS256"}]}'
+      PGRST_JWT_SECRET: ${JWT_JWKS:?run make setup first}
       PGRST_APP_SETTINGS_JWT_SECRET: ${JWT_SECRET:?run make setup first}
       PGRST_APP_SETTINGS_JWT_EXP: ${JWT_EXPIRY:-3600}
       PGRST_DB_USE_LEGACY_GUCS: "false"
@@ -132,7 +132,7 @@ services:
       DB_AFTER_CONNECT_QUERY: SET search_path TO _realtime
       DB_ENC_KEY: ${REALTIME_DB_ENC_KEY:?run make setup first}
       API_JWT_SECRET: ${JWT_SECRET:?run make setup first}
-      API_JWT_JWKS: '{"keys":[{"kty":"oct","k":"NTM4OTg4NmQ3YTBlNGU2ZGE3YWE5YTc5MTVmOTYzMmVjMjM4ZDY2YjJkZjRlYmI1M2Q1MDI4ZTkzZGZiYzFkZg","alg":"HS256"}]}'
+      API_JWT_JWKS: ${JWT_JWKS:?run make setup first}
       METRICS_JWT_SECRET: ${JWT_SECRET:?run make setup first}
       SECRET_KEY_BASE: ${SECRET_KEY_BASE:?run make setup first}
       ERL_AFLAGS: -proto_dist inet_tcp
@@ -203,7 +203,7 @@ services:
       retries: 12
     environment:
       JWT_SECRET: ${JWT_SECRET:?run make setup first}
-      SUPABASE_JWKS: '{"keys":[{"kty":"oct","k":"NTM4OTg4NmQ3YTBlNGU2ZGE3YWE5YTc5MTVmOTYzMmVjMjM4ZDY2YjJkZjRlYmI1M2Q1MDI4ZTkzZGZiYzFkZg","alg":"HS256"}]}'
+      SUPABASE_JWKS: ${JWT_JWKS:?run make setup first}
       VERIFY_JWT: "false"
       SUPABASE_URL: http://gateway:8000
       SUPABASE_PUBLIC_URL: ${SUPABASE_PUBLIC_URL:?SUPABASE_PUBLIC_URL is required}
