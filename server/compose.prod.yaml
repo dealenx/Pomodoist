@@ -1,0 +1,25 @@
+# Registry overlay: use prebuilt images from GHCR instead of building locally.
+# Usage: export COMPOSE_OVERLAYS=compose.prod.yaml (see README.md) or
+#   docker compose --project-directory . --env-file .env \
+#     -f compose.yaml -f compose.prod.yaml up -d
+# The image tag defaults to the branch/ref the images were built for (mod);
+# override with POMODOIST_IMAGE_TAG, e.g. a sha tag like sha-3cc9ccc.
+
+services:
+  db:
+    image: ghcr.io/dealenx/pomodoist-db:${POMODOIST_IMAGE_TAG:-mod}
+    build: !reset null
+
+  gateway:
+    image: ghcr.io/dealenx/pomodoist-gateway:${POMODOIST_IMAGE_TAG:-mod}
+    build: !reset null
+
+  functions:
+    image: ghcr.io/dealenx/pomodoist-functions:${POMODOIST_IMAGE_TAG:-mod}
+    build: !reset null
+
+  web:
+    image: ghcr.io/dealenx/pomodoist-web:${POMODOIST_IMAGE_TAG:-mod}
+    build: !reset null
+    # The registry web image is built with RELEASE_SHA baked in, so the
+    # POMODOIST_RELEASE build argument in the base file is not applied here.
